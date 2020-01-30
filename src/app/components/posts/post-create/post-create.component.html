@@ -1,0 +1,20 @@
+
+<mat-card>
+  <mat-card-title>Card Title</mat-card-title>
+    <mat-form-field>
+      <textarea
+        matInput
+        name="postInput"
+        [(ngModel)]="enteredValue">
+      {{ newPost }}</textarea>
+    </mat-form-field>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onAddPost(enteredValue)"
+      >Adicionar</button>
+    </mat-card-actions>
+</mat-card>
+
+{{ newPost }}
