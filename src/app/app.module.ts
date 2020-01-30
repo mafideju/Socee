@@ -10,6 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from './components/header/header.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { PostListComponent } from './components/posts/post-list/post-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -26,6 +34,8 @@ import { MatButtonModule } from '@angular/material/button';
     AppComponent,
     PostsComponent,
     PostCreateComponent,
+    HeaderComponent,
+    PostListComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +44,11 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserAnimationsModule,
     MatInputModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
