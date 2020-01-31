@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-post-list',
@@ -7,30 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostListComponent implements OnInit {
   panelOpenState = false;
-  posts: { id: number; author: string; title: string; content: string; }[];
+  @Input() posts = [];
 
   constructor() { }
 
-  ngOnInit() {
-    this.posts = [
-      {
-        id: 1,
-        author: 'Mohamed Ali',
-        title: 'Primeiro Post',
-        content: 'Este é o primeiro post de teste'
-      },
-      {
-        id: 2,
-        author: 'Mike Tyson',
-        title: 'Segundo Post',
-        content: 'Este é o segundo post para diferenciar do primeiro'
-      },
-      {
-        id: 3,
-        author: 'Adilson Maguila',
-        title: 'Terceiro Post',
-        content: 'Mais um para finalizar os testes.'
-      }
-    ];
-  }
+  ngOnInit() {}
 }

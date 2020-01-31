@@ -1,16 +1,24 @@
-<mat-accordion>
+<mat-accordion *ngIf="posts.length > 0; else noContent">
   <mat-expansion-panel *ngFor="let post of posts">
 
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ post.title }}
-      </mat-panel-title>
-      <mat-panel-description>
-        {{ post.author }}
-      </mat-panel-description>
+      <mat-panel-title>{{ post.title }}</mat-panel-title>
+      <mat-panel-description>{{ post.author }}</mat-panel-description>
     </mat-expansion-panel-header>
 
     <p>{{ post.content }}</p>
 
   </mat-expansion-panel>
+
 </mat-accordion>
+
+<ng-template #noContent>
+  <mat-card class="content">
+    <mat-card-title>
+      Tá na hora de começar! Cadastre um post e veja listado aqui!
+    </mat-card-title>
+    <mat-card-content>
+      Insira uma postagem para começar seu legado!
+    </mat-card-content>
+  </mat-card>
+</ng-template>

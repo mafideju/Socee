@@ -2,17 +2,29 @@
 <mat-card class="content">
   <mat-card-title>Card Title</mat-card-title>
     <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="postTitle"
+        placeholder="Título"
+        [(ngModel)]="enteredTitle"
+      >
+    </mat-form-field>
+    <mat-form-field>
       <textarea
         matInput
-        name="postInput"
-        [(ngModel)]="enteredValue">
-      {{ newPost }}</textarea>
+        name="postContent"
+        placeholder="Comece a me contar o que você sabe..."
+        [(ngModel)]="enteredContent"
+      >
+        {{ newPost }}
+      </textarea>
     </mat-form-field>
     <mat-card-actions>
       <button
         mat-raised-button
         color="primary"
-        (click)="onAddPost(enteredValue)"
+        (click)="onAddPost(title, content)"
       >Adicionar</button>
     </mat-card-actions>
 </mat-card>
