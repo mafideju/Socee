@@ -1,7 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';
-import { Post } from 'src/app/models/post.model';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, NgForm } from '@angular/forms';
+import { PostsService } from 'src/app/service/posts.service';
 
 @Component({
   selector: 'app-post-create',
@@ -9,28 +8,24 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./post-create.component.scss']
 })
 export class PostCreateComponent implements OnInit {
-  title = new FormControl('', [Validators.required, Validators.email]);
+  title = new FormControl('', [Validators.required]);
+  content = new FormControl('', [Validators.required]);
 
-  @Output() postCreated: EventEmitter<Post> = new EventEmitter();
-  enteredTitle: string;
-  enteredContent: string;
-
-  constructor() { }
+  constructor(public postsService: PostsService) { }
 
   ngOnInit() {
   }
 
-  onAddPost() {
-    const newPost: Post = {
-      title: this.enteredTitle,
-      content: this.enteredContent
-    };
-    this.postCreated.emit(newPost);
+  onAddPost(form: NgForm) {
+    if (form.invalid) { return; }
+    this.postsService.addPost(form.value.title, form.value.content);
   }
 
-  getErrorMessage() {
-    return this.enteredTitle.hasError('required') ? 'You must enter a value' :
-        this.enteredTitle.hasError('email') ? 'Not a valid email' :
-            '';
+  getTitleError() {
+    return this.title.hasError('required') ? 'Entre um Título para continuar' : '';
+  }
+
+  getContentError() {
+    return this.content.hasError('required') ? 'Entre conteúdo! Dê forma as suas idéias!' : '';
   }
 }

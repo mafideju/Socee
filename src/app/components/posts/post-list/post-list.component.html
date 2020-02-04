@@ -2,8 +2,8 @@
   <mat-expansion-panel *ngFor="let post of posts">
 
     <mat-expansion-panel-header>
-      <mat-panel-title>{{ post.title }}</mat-panel-title>
-      <mat-panel-description>{{ post.author }}</mat-panel-description>
+      <mat-panel-title title>{{ post.title }}</mat-panel-title>
+      <mat-panel-description>{{ post.author ? post.author : 'Desconhecido' }}</mat-panel-description>
     </mat-expansion-panel-header>
 
     <p>{{ post.content }}</p>

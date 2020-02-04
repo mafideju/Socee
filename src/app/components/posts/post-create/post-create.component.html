@@ -1,30 +1,38 @@
 
 <mat-card class="content">
-  <mat-card-title>Card Title</mat-card-title>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        name="postTitle"
-        placeholder="Título"
-        [(ngModel)]="enteredTitle"
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <textarea
-        matInput
-        name="postContent"
-        placeholder="Comece a me contar o que você sabe..."
-        [(ngModel)]="enteredContent"
-      >
-        {{ newPost }}
+  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-card-title>Card Title</mat-card-title>
+      <mat-form-field>
+        <input
+          type="text"
+          placeholder="Título"
+          name="title"
+          matInput
+          ngModel
+          required
+          #title="ngModel"
+        >
+        <mat-error *ngIf="title.invalid">{{getTitleError()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          placeholder="Comece a me contar o que você sabe..."
+          rows="6"
+          name="content"
+          matInput
+          ngModel
+          required
+          #content="ngModel"
+        >
       </textarea>
-    </mat-form-field>
-    <mat-card-actions>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="onAddPost(title, content)"
-      >Adicionar</button>
-    </mat-card-actions>
+      <mat-error *ngIf="content.invalid">{{getContentError()}}</mat-error>
+      </mat-form-field>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+        >Adicionar</button>
+      </mat-card-actions>
+  </form>
 </mat-card>
