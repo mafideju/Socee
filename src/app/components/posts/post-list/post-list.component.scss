@@ -9,6 +9,10 @@ mat-expansion-panel {
   margin-top: .5rem;
 }
 
+mat-expansion-panel-header {
+  max-height: 3rem;
+}
+
 mat-form-field,
 textarea {
   width: 100%;

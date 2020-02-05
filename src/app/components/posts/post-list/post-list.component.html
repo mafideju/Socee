@@ -2,14 +2,22 @@
   <mat-expansion-panel *ngFor="let post of posts">
 
     <mat-expansion-panel-header>
-      <mat-panel-title title>{{ post.title }}</mat-panel-title>
+      <mat-panel-title>{{ post.title }}</mat-panel-title>
       <mat-panel-description>{{ post.author ? post.author : 'Desconhecido' }}</mat-panel-description>
     </mat-expansion-panel-header>
 
-    <p>{{ post.content }}</p>
+    <mat-divider></mat-divider>
+
+    <div>
+      <p>{{ post.content }}</p>
+    </div>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="nextStep()">Editar<mat-icon>edit</mat-icon></button>
+      <button mat-button color="warn" (click)="prevStep()">Excluir<mat-icon>delete_forever</mat-icon></button>
+    </mat-action-row>
 
   </mat-expansion-panel>
-
 </mat-accordion>
 
 <ng-template #noContent>

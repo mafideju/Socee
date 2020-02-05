@@ -16,7 +16,7 @@ export class PostsService {
   }
 
   getPostUpdateListener() {
-    console.log('getPostUpdateListener');
+    return this.postsUpdated.asObservable();
   }
 
   addPost(title: string, content: string) {

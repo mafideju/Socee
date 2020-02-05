@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PostListComponent } from './components/posts/post-list/post-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -48,7 +49,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatToolbarModule,
     MatIconModule,
     MatExpansionModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
