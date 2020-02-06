@@ -5,8 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { PostCreateComponent } from './components/posts/post-create/post-create.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainNavComponent } from './components/header/main-nav/main-nav.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +21,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MainNavComponent } from './components/header/main-nav/main-nav.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -58,7 +59,8 @@ import { MainNavComponent } from './components/header/main-nav/main-nav.componen
     MatDividerModule,
     LayoutModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
