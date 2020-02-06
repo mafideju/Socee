@@ -17,6 +17,10 @@ import { PostListComponent } from './components/posts/post-list/post-list.compon
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MainNavComponent } from './components/header/main-nav/main-nav.component';
 
 
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -37,6 +41,7 @@ import { MatDividerModule } from '@angular/material/divider';
     PostCreateComponent,
     HeaderComponent,
     PostListComponent,
+    MainNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +55,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatExpansionModule,
     MatFormFieldModule,
-    MatDividerModule
+    MatDividerModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

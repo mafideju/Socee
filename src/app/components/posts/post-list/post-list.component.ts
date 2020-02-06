@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Post } from 'src/app/models/post.model';
 import { PostsService } from 'src/app/service/posts.service';
 import { Subscription } from 'rxjs';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-post-list',
