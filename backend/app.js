@@ -1,6 +1,14 @@
 const express = require('express');
 const parser = require('body-parser');
+const mongoose = require('mongoose');
 const app = express();
+
+const Post = require('./models/Post');
+
+mongoose
+    .connect('mongodb+srv://mafideju:mancada60@angularnode-qkycv.mongodb.net/nodeangular?retryWrites=true&w=majority')
+    .then((data) => console.log('Conexão Estabelecida', data))
+    .catch((err) => console.log(`Foi encontrado um erro => ${err}`));
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: false }));
@@ -12,30 +20,42 @@ app.use((req, res, next) => {
     next();
 });
 
+// ************ APIS *******************************************************
+app.get('/api/posts', (req, res, next) => {
+    Post.find()
+        .then(posts => {
+            res.status(200).json({
+                message: 'Deu Certo =)',
+                posts
+            });
+        })
+        .catch(err => console.log(err));
+});
+
 app.post('/api/posts', (req, res, next) => {
-    console.log('REQ.BODY =>', req.body);
+    const post = new Post({
+        title: req.body.title,
+        content: req.body.content
+    });
+    post.save();
+    console.log('*********************REQ.BODY*********************** =>', post);
     res.status(201).json({
-        message: 'Recurso adicionado com sucesso! =)'
+        message: 'Recurso adicionado com sucesso! =)',
+        post
     });
 });
 
-app.get('/api/posts', (req, res, next) => {
-    const posts = [
-        {
-            id: '1',
-            title: 'Server 101',
-            content: 'Este é o primeiro post vindo do servidor'
-        },
-        {
-            id: '2',
-            title: 'Server 201',
-            content: 'Este é o segundo post - tem uma galera - vindo do servidor'
-        }
-    ];
-    res.status(200).json({
-        message: 'Deu Certo =)',
-        posts
-    });
+app.delete('/api/posts/:id', (req, res, next) => {
+    console.log('I D ==>>', req.params);
+    Post
+        .findByIdAndRemove({ _id: req.params.id })
+        .then(result => {
+            console.log('R E S U L T', result)
+            res.status(204).json({
+                message: 'Post Deletado! =|'
+            });
+        })
+        .catch(err => console.log(err));
 });
 
 module.exports = app;

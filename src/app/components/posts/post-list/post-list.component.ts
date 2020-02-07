@@ -21,11 +21,14 @@ export class PostListComponent implements OnInit {
     this.postsService.getPosts();
     this.postsSubscription =  this.postsService.getPostUpdateListener().subscribe((posts: Post[]) => {
       this.posts = posts;
-      console.log(posts);
     });
   }
 
   ngOnDestroy() {
     this.postsSubscription.unsubscribe();
+  }
+
+  deletePost(postId: string) {
+    this.postsService.deletePostService(postId);
   }
 }
