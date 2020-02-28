@@ -22,7 +22,7 @@ export class PostsService {
             id: post._id,
             title: post.title,
             content: post.content
-          }
+          } 
         });
       }))
       .subscribe(data => {
@@ -37,8 +37,9 @@ export class PostsService {
 
   addPost(id: null, title: string, content: string) {
     const post: Post = {id, title, content};
-    this.http.post<{message: string}>(`http://localhost:3000/api/posts`, post)
-      .subscribe(() => {
+    this.http.post<{message: string, postId: string}>(`http://localhost:3000/api/posts`, post)
+      .subscribe(data => {
+        post.id = data.postId;
         this.posts.unshift(post);
         this.postsUpdated.next([...this.posts]);
     });
@@ -46,10 +47,10 @@ export class PostsService {
 
   deletePostService(postId: string) {
     this.http.delete(`http://localhost:3000/api/posts/${postId}`)
-      .subscribe(post => {
-        console.log('TESTE TESTE');
-        
-        // this.posts.
+      .subscribe(() => {
+        const updatedPost = this.posts.filter(post => post.id !== postId);
+        this.posts = updatedPost;
+        this.postsUpdated.next([...this.posts]);
       });
   }
 }

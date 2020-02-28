@@ -37,12 +37,15 @@ app.post('/api/posts', (req, res, next) => {
         title: req.body.title,
         content: req.body.content
     });
-    post.save();
-    console.log('*********************REQ.BODY*********************** =>', post);
-    res.status(201).json({
-        message: 'Recurso adicionado com sucesso! =)',
-        post
-    });
+    post
+        .save()
+        .then(result => {
+            res.status(201).json({
+                message: 'Recurso adicionado com sucesso! =)',
+                postId: result._id
+            });
+        })
+        .catch(err => console.log('error', err));
 });
 
 app.delete('/api/posts/:id', (req, res, next) => {
