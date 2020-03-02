@@ -22,13 +22,17 @@ export class PostsService {
             id: post._id,
             title: post.title,
             content: post.content
-          } 
+          }
         });
       }))
       .subscribe(data => {
         this.posts = data;
         this.postsUpdated.next(this.posts);
     });
+  }
+
+  getPostById(id: string) {
+    return { ...this.posts.find(post => post.id === id) };
   }
 
   getPostUpdateListener() {
@@ -43,6 +47,12 @@ export class PostsService {
         this.posts.unshift(post);
         this.postsUpdated.next([...this.posts]);
     });
+  }
+
+  editPost(id: string, title: string, content: string) {
+    const post: Post = {id, title, content};
+    this.http.put(`http://localhost:3000/api/posts/${id}`, post)
+    .subscribe(resp => console.log(resp));
   }
 
   deletePostService(postId: string) {

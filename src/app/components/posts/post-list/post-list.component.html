@@ -13,8 +13,16 @@
     </div>
 
     <mat-action-row>
-      <button mat-raised-button color="accent" (click)="nextStep()">Editar<mat-icon>edit</mat-icon></button>
-      <button mat-raised-button color="warn" (click)="deletePost(post.id)">Excluir<mat-icon>delete_forever</mat-icon></button>
+      <a
+        mat-raised-button
+        color="accent"
+        [routerLink]="['/edit', post.id]"
+      >Editar<mat-icon>edit</mat-icon></a>
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="deletePost(post.id)"
+      >Excluir<mat-icon>delete_forever</mat-icon></button>
     </mat-action-row>
 
   </mat-expansion-panel>

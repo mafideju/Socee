@@ -8,7 +8,7 @@
           placeholder="Título"
           name="title"
           matInput
-          ngModel
+          [ngModel]="post.title"
           required
           #title="ngModel"
         >
@@ -20,7 +20,7 @@
           rows="6"
           name="content"
           matInput
-          ngModel
+          [ngModel]="post.content"
           required
           #content="ngModel"
         >
