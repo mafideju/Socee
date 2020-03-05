@@ -1,34 +1,38 @@
-<mat-accordion *ngIf="posts.length > 0; else noContent">
-  <mat-expansion-panel *ngFor="let post of posts">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{ post.title }}</mat-panel-title>
-      <mat-panel-description>{{ post.author ? post.author : 'Desconhecido' }}</mat-panel-description>
-    </mat-expansion-panel-header>
+<span *ngIf="!isLoading">
+  <mat-accordion *ngIf="posts.length > 0; else noContent">
+    <mat-expansion-panel *ngFor="let post of posts">
 
-    <mat-divider></mat-divider>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ post.title }}</mat-panel-title>
+        <mat-panel-description>{{ post.author ? post.author : 'Desconhecido' }}</mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <div>
-      <p>{{ post.content }}</p>
-    </div>
+      <mat-divider></mat-divider>
 
-    <mat-action-row>
-      <a
-        mat-raised-button
-        color="accent"
-        [routerLink]="['/edit', post.id]"
-      >Editar<mat-icon>edit</mat-icon></a>
-      <button
-        mat-raised-button
-        color="warn"
-        (click)="deletePost(post.id)"
-      >Excluir<mat-icon>delete_forever</mat-icon></button>
-    </mat-action-row>
+      <div>
+        <p>{{ post.content }}</p>
+      </div>
 
-  </mat-expansion-panel>
-</mat-accordion>
+      <mat-action-row>
+        <a
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/edit', post.id]"
+        >Editar<mat-icon>edit</mat-icon></a>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="deletePost(post.id)"
+        >Excluir<mat-icon>delete_forever</mat-icon></button>
+      </mat-action-row>
 
-<ng-template #noContent>
+    </mat-expansion-panel>
+  </mat-accordion>
+</span>
+
+<ng-template #noContent *ngIf="!isLoading">
   <mat-card class="content">
     <mat-card-title>
       Tá na hora de começar! Cadastre um post e veja listado aqui!

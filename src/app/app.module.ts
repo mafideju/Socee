@@ -7,6 +7,8 @@ import { PostsComponent } from './components/posts/posts.component';
 import { PostCreateComponent } from './components/posts/post-create/post-create.component';
 import { MainNavComponent } from './components/header/main-nav/main-nav.component';
 
+import { LayoutModule } from '@angular/cdk/layout';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -18,10 +20,9 @@ import { PostListComponent } from './components/posts/post-list/post-list.compon
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
-import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { HttpClientModule } from '@angular/common/http';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -49,6 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+    LayoutModule,
+    HttpClientModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -57,10 +60,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatExpansionModule,
     MatFormFieldModule,
     MatDividerModule,
-    LayoutModule,
     MatSidenavModule,
     MatListModule,
-    HttpClientModule
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

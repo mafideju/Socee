@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators'; 
+import { map } from 'rxjs/operators';
 import { Post } from '../models/post.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ export class PostsService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<Post[]>();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+    ) { }
 
   getPosts() {
     this.http
@@ -22,7 +26,7 @@ export class PostsService {
             id: post._id,
             title: post.title,
             content: post.content
-          }
+          };
         });
       }))
       .subscribe(data => {
@@ -32,33 +36,41 @@ export class PostsService {
   }
 
   getPostById(id: string) {
-    return { ...this.posts.find(post => post.id === id) };
+    return this.http.get<{_id: string, title: string, content: string}>(`http://localhost:3000/api/posts/${id}`);
   }
 
   getPostUpdateListener() {
     return this.postsUpdated.asObservable();
   }
 
-  addPost(id: null, title: string, content: string) {
+  addPostService(id: null, title: string, content: string) {
     const post: Post = {id, title, content};
-    this.http.post<{message: string, postId: string}>(`http://localhost:3000/api/posts`, post)
-      .subscribe(data => {
-        post.id = data.postId;
+    this.http.post<{message: string, id: string}>(`http://localhost:3000/api/posts`, post)
+      .subscribe(resp => {
+        post.id = resp.id;
         this.posts.unshift(post);
         this.postsUpdated.next([...this.posts]);
+        this.router.navigate(['/']);
     });
   }
 
-  editPost(id: string, title: string, content: string) {
+  editPostService(id: string, title: string, content: string) {
     const post: Post = {id, title, content};
     this.http.put(`http://localhost:3000/api/posts/${id}`, post)
-    .subscribe(resp => console.log(resp));
+    .subscribe(resp => {
+      const updatedPost = [...this.posts];
+      const oldPostIndex = updatedPost.findIndex(actualPost => actualPost.id === post.id);
+      updatedPost[oldPostIndex] = post;
+      this.posts = updatedPost;
+      this.postsUpdated.next([...this.posts]);
+      this.router.navigate(['/']);
+    });
   }
 
-  deletePostService(postId: string) {
-    this.http.delete(`http://localhost:3000/api/posts/${postId}`)
+  deletePostService(id: string) {
+    this.http.delete(`http://localhost:3000/api/posts/${id}`)
       .subscribe(() => {
-        const updatedPost = this.posts.filter(post => post.id !== postId);
+        const updatedPost = this.posts.filter(post => post.id !== id);
         this.posts = updatedPost;
         this.postsUpdated.next([...this.posts]);
       });

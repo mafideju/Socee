@@ -12,9 +12,10 @@ import { Post } from 'src/app/models/post.model';
 export class PostCreateComponent implements OnInit {
   title = new FormControl('', [Validators.required]);
   content = new FormControl('', [Validators.required]);
+  post: Post;
   private mode = 'create';
   private id: string;
-  post: Post;
+  isLoading = false;
 
   constructor(
     public postsService: PostsService,
@@ -23,11 +24,14 @@ export class PostCreateComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      // this.mode = paramMap.has('id') ? 'edit' : 'create';
       if (paramMap.has('id')) {
+        this.isLoading = true;
         this.mode = 'edit';
         this.id = paramMap.get('id');
-        this.post = this.postsService.getPostById(this.id);
+        this.postsService.getPostById(this.id).subscribe(resp => {
+          this.post = { id: resp._id, title: resp.title, content: resp.content };
+          this.isLoading = false;
+        });
       } else {
         this.mode = 'create';
         this.id = null;
@@ -37,10 +41,13 @@ export class PostCreateComponent implements OnInit {
 
   onAddPost(form: NgForm) {
     if (form.invalid) { return; }
+    this.isLoading = true;
     if (this.mode === 'create') {
-      this.postsService.addPost(form.value.id, form.value.title, form.value.content);
+      this.postsService.addPostService(form.value.id, form.value.title, form.value.content);
+      this.isLoading = false;
     } else if (this.mode === 'edit') {
-      this.postsService.editPost(this.id, form.value.title, form.value.content);
+      this.postsService.editPostService(this.id, form.value.title, form.value.content);
+      this.isLoading = false;
     }
     form.resetForm();
   }
