@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, NgForm } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PostsService } from 'src/app/service/posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from 'src/app/models/post.model';
@@ -16,6 +16,7 @@ export class PostCreateComponent implements OnInit {
   private mode = 'create';
   private id: string;
   isLoading = false;
+  form: FormGroup;
 
   constructor(
     public postsService: PostsService,
@@ -23,6 +24,14 @@ export class PostCreateComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(1)],
+      }),
+      content: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(10)],
+      })
+    });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('id')) {
         this.isLoading = true;
@@ -31,6 +40,10 @@ export class PostCreateComponent implements OnInit {
         this.postsService.getPostById(this.id).subscribe(resp => {
           this.post = { id: resp._id, title: resp.title, content: resp.content };
           this.isLoading = false;
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content
+          });
         });
       } else {
         this.mode = 'create';
@@ -39,17 +52,24 @@ export class PostCreateComponent implements OnInit {
     });
   }
 
-  onAddPost(form: NgForm) {
-    if (form.invalid) { return; }
-    this.isLoading = true;
+  onAddPost() {
+    if (this.form.invalid) { return; }
     if (this.mode === 'create') {
-      this.postsService.addPostService(form.value.id, form.value.title, form.value.content);
-      this.isLoading = false;
+      this.isLoading = true;
+      this.postsService.addPostService(
+          this.form.value.id,
+          this.form.value.title,
+          this.form.value.content
+        );
     } else if (this.mode === 'edit') {
-      this.postsService.editPostService(this.id, form.value.title, form.value.content);
-      this.isLoading = false;
+      this.postsService.editPostService(
+        this.id,
+        this.form.value.title,
+        this.form.value.content
+      );
     }
-    form.resetForm();
+    this.form.reset();
+    this.isLoading = false;
   }
 
   getTitleError() {

@@ -57,11 +57,11 @@ export class PostsService {
   editPostService(id: string, title: string, content: string) {
     const post: Post = {id, title, content};
     this.http.put(`http://localhost:3000/api/posts/${id}`, post)
-    .subscribe(resp => {
-      const updatedPost = [...this.posts];
-      const oldPostIndex = updatedPost.findIndex(actualPost => actualPost.id === post.id);
-      updatedPost[oldPostIndex] = post;
-      this.posts = updatedPost;
+    .subscribe(() => {
+      const currentPost = [...this.posts];
+      const oldPostIndex = currentPost.findIndex(actualPost => actualPost.id === post.id);
+      currentPost[oldPostIndex] = post;
+      this.posts = currentPost;
       this.postsUpdated.next([...this.posts]);
       this.router.navigate(['/']);
     });

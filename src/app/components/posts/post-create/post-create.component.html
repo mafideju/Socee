@@ -1,20 +1,17 @@
 
 <mat-card class="content">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (submit)="onAddPost(postForm)" #postForm="ngForm" *ngIf="!isLoading">
+  <form [formGroup]="form" (submit)="onAddPost()" *ngIf="!isLoading">
     <mat-card-title>Card Title</mat-card-title>
       <mat-form-field>
         <input
           type="text"
           placeholder="Título"
-          name="title"
-          [ngModel]="post?.title"
+          formControlName="title"
           matInput
-          required
-          #title="ngModel"
         >
         <mat-error
-          *ngIf="title.invalid"
+          *ngIf="form.get('title').invalid"
         >
           {{getTitleError()}}
         </mat-error>
@@ -23,27 +20,37 @@
         <textarea
           placeholder="Comece a me contar o que você sabe..."
           rows="6"
-          name="content"
-          [ngModel]="post?.content"
+          formControlName="content"
           matInput
-          required
-          #content="ngModel"
         >
         </textarea>
         <mat-error
-          *ngIf="content.invalid"
+          *ngIf="form.get('content').invalid"
         >
           {{getContentError()}}
         </mat-error>
       </mat-form-field>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-        >
-          Adicionar
+      <div class="button__content" style="justify-content: space-around;">
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="filePicker.click()"
+          >
+            Enviar Imagem
+          </button>
+          <input type="file" #filePicker>
+        </mat-card-actions>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+          >
+            Adicionar Post
         </button>
-      </mat-card-actions>
+        </div>
+      </div>
   </form>
 </mat-card>

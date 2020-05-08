@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./post-list.component.scss']
 })
 
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   panelOpenState = false;
   isLoading = false;
