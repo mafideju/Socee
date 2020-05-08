@@ -12,6 +12,7 @@ import { Post } from 'src/app/models/post.model';
 export class PostCreateComponent implements OnInit {
   title = new FormControl('', [Validators.required]);
   content = new FormControl('', [Validators.required]);
+  author = new FormControl('', [Validators.required]);
   post: Post;
   private mode = 'create';
   private id: string;
@@ -30,6 +31,9 @@ export class PostCreateComponent implements OnInit {
       }),
       content: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(10)],
+      }),
+      author: new FormControl(null, {
+        validators: [Validators.minLength(3), Validators.maxLength(15)],
       })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -38,11 +42,12 @@ export class PostCreateComponent implements OnInit {
         this.mode = 'edit';
         this.id = paramMap.get('id');
         this.postsService.getPostById(this.id).subscribe(resp => {
-          this.post = { id: resp._id, title: resp.title, content: resp.content };
+          this.post = { id: resp._id, title: resp.title, content: resp.content, author: resp.author };
           this.isLoading = false;
           this.form.setValue({
             title: this.post.title,
-            content: this.post.content
+            content: this.post.content,
+            author: this.post.author
           });
         });
       } else {
@@ -59,13 +64,15 @@ export class PostCreateComponent implements OnInit {
       this.postsService.addPostService(
           this.form.value.id,
           this.form.value.title,
-          this.form.value.content
+          this.form.value.content,
+          this.form.value.author
         );
     } else if (this.mode === 'edit') {
       this.postsService.editPostService(
         this.id,
         this.form.value.title,
-        this.form.value.content
+        this.form.value.content,
+        this.form.value.author
       );
     }
     this.form.reset();

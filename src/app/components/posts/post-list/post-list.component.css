@@ -1,0 +1,38 @@
+mat-card {
+  width: 80%;
+  margin: auto;
+}
+mat-expansion-panel {
+  width: 87.5%;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+mat-expansion-panel-header {
+  max-height: 3rem;
+}
+mat-spinner {
+  margin: auto;
+}
+mat-form-field,
+textarea {
+  width: 100%;
+}
+.content {
+  margin-top: 0.5rem;
+  padding: 2rem;
+}
+.header__title {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2rem;
+  width: 100%;
+  font-size: 1.1rem;
+}
+.header__item--author {
+  font-style: italic;
+}
+.panel__item {
+  padding: 1rem 0;
+  color: purple;
+  border-radius: 10px;
+}

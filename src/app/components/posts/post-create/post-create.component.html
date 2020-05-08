@@ -3,33 +3,43 @@
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form [formGroup]="form" (submit)="onAddPost()" *ngIf="!isLoading">
     <mat-card-title>Card Title</mat-card-title>
-      <mat-form-field>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Título"
+        formControlName="title"
+        matInput
+      >
+      <mat-error
+        *ngIf="form.get('title').invalid"
+      >
+        {{getTitleError()}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
         <input
+          matInput
+          placeholder="Autor"
+          formControlName="author"
           type="text"
-          placeholder="Título"
-          formControlName="title"
-          matInput
         >
-        <mat-error
-          *ngIf="form.get('title').invalid"
-        >
-          {{getTitleError()}}
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea
-          placeholder="Comece a me contar o que você sabe..."
-          rows="6"
-          formControlName="content"
-          matInput
-        >
-        </textarea>
-        <mat-error
-          *ngIf="form.get('content').invalid"
-        >
-          {{getContentError()}}
-        </mat-error>
-      </mat-form-field>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        placeholder="Comece a me contar o que você sabe..."
+        rows="6"
+        formControlName="content"
+        matInput
+      >
+      </textarea>
+      <mat-error
+        *ngIf="form.get('content').invalid"
+      >
+        {{getContentError()}}
+      </mat-error>
+    </mat-form-field>
       <div class="button__content" style="justify-content: space-around;">
         <mat-card-actions>
           <button

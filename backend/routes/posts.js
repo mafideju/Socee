@@ -29,7 +29,8 @@ router.get('/:id', (req, res, next) => {
 router.post('', (req, res, next) => {
   const post = new Post({
       title: req.body.title,
-      content: req.body.content
+      content: req.body.content,
+      author: req.body.author
   });
   post
       .save()
@@ -46,7 +47,8 @@ router.put("/:id", (req, res, next) => {
   const post = new Post({
       _id: req.body.id,
       title: req.body.title,
-      content: req.body.content
+      content: req.body.content,
+      author: req.body.author
   });
   Post
       .updateOne({ _id: req.params.id }, post)

@@ -26,3 +26,24 @@ textarea {
   margin-top: .5rem;
   padding: 2rem;
 }
+
+.header {
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 2rem;
+    width: 100%;
+    font-size: 1.1rem;
+  }
+  &__item--author {
+      font-style: italic;
+  }
+}
+
+.panel {
+  &__item{
+    padding: 1rem 0;
+    color: purple;
+    border-radius: 10px;
+  }
+}

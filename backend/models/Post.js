@@ -8,6 +8,9 @@ const PostSchema = mongoose.Schema({
     content: {
         type: String,
         required: true
+    },
+    author: {
+      type: String,
     }
 });
 

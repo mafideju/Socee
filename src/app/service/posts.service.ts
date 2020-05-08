@@ -25,7 +25,8 @@ export class PostsService {
           return {
             id: post._id,
             title: post.title,
-            content: post.content
+            content: post.content,
+            author:  post.author
           };
         });
       }))
@@ -36,15 +37,15 @@ export class PostsService {
   }
 
   getPostById(id: string) {
-    return this.http.get<{_id: string, title: string, content: string}>(`http://localhost:3000/api/posts/${id}`);
+    return this.http.get<{_id: string, title: string, content: string, author: string}>(`http://localhost:3000/api/posts/${id}`);
   }
 
   getPostUpdateListener() {
     return this.postsUpdated.asObservable();
   }
 
-  addPostService(id: null, title: string, content: string) {
-    const post: Post = {id, title, content};
+  addPostService(id: null, title: string, content: string, author: string) {
+    const post: Post = {id, title, content, author};
     this.http.post<{message: string, id: string}>(`http://localhost:3000/api/posts`, post)
       .subscribe(resp => {
         post.id = resp.id;
@@ -54,8 +55,8 @@ export class PostsService {
     });
   }
 
-  editPostService(id: string, title: string, content: string) {
-    const post: Post = {id, title, content};
+  editPostService(id: string, title: string, content: string, author: string) {
+    const post: Post = {id, title, content, author};
     this.http.put(`http://localhost:3000/api/posts/${id}`, post)
     .subscribe(() => {
       const currentPost = [...this.posts];

@@ -2,11 +2,15 @@
 
 <span *ngIf="!isLoading">
   <mat-accordion *ngIf="posts.length > 0; else noContent">
-    <mat-expansion-panel *ngFor="let post of posts">
+    <mat-expansion-panel *ngFor="let post of posts" class="panel__item">
 
       <mat-expansion-panel-header>
-        <mat-panel-title>{{ post.title }}</mat-panel-title>
-        <mat-panel-description>{{ post.author ? post.author : 'Desconhecido' }}</mat-panel-description>
+        <div class="header__title">
+          <div class="header__item--title">{{ post.title }}</div>
+          <div class="header__item--author">
+            {{ post.author ? post.author : 'Desconhecido' }}
+          </div>
+        </div>
       </mat-expansion-panel-header>
 
       <mat-divider></mat-divider>
@@ -20,12 +24,18 @@
           mat-raised-button
           color="accent"
           [routerLink]="['/edit', post.id]"
-        >Editar<mat-icon>edit</mat-icon></a>
+        >
+          Editar
+          <mat-icon>edit</mat-icon>
+        </a>
         <button
           mat-raised-button
           color="warn"
           (click)="deletePost(post.id)"
-        >Excluir<mat-icon>delete_forever</mat-icon></button>
+        >
+          Excluir
+          <mat-icon>delete_forever</mat-icon>
+        </button>
       </mat-action-row>
 
     </mat-expansion-panel>
