@@ -12,10 +12,9 @@ mat-spinner {
 .content {
   padding: 2rem;
 }
-.button__content {
-  display: flex;
-  align-items: center;
-}
 input[type="file"] {
   visibility: hidden;
+}
+.image-preview img {
+  height: 7.5rem;
 }

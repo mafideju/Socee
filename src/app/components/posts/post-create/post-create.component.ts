@@ -3,6 +3,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PostsService } from 'src/app/service/posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from 'src/app/models/post.model';
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-post-create',
@@ -12,12 +13,13 @@ import { Post } from 'src/app/models/post.model';
 export class PostCreateComponent implements OnInit {
   title = new FormControl('', [Validators.required]);
   content = new FormControl('', [Validators.required]);
-  author = new FormControl('', [Validators.required]);
+  author = new FormControl('', []);
+  form: FormGroup;
   post: Post;
+  imagePreview: string;
   private mode = 'create';
   private id: string;
   isLoading = false;
-  form: FormGroup;
 
   constructor(
     public postsService: PostsService,
@@ -27,14 +29,15 @@ export class PostCreateComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(1)],
+        validators: [Validators.required, Validators.minLength(1)],  // ADICIONAR VALIDATOR PARA MAX LENGTH AQUI
       }),
       content: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(10)],
       }),
       author: new FormControl(null, {
         validators: [Validators.minLength(3), Validators.maxLength(15)],
-      })
+      }),
+      image: new FormControl(null, { asyncValidators: [mimeType] })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('id')) {
@@ -58,14 +61,15 @@ export class PostCreateComponent implements OnInit {
   }
 
   onAddPost() {
+    this.isLoading = true;
     if (this.form.invalid) { return; }
     if (this.mode === 'create') {
-      this.isLoading = true;
       this.postsService.addPostService(
           this.form.value.id,
           this.form.value.title,
           this.form.value.content,
-          this.form.value.author
+          this.form.value.author,
+          this.form.value.image,
         );
     } else if (this.mode === 'edit') {
       this.postsService.editPostService(
@@ -79,6 +83,20 @@ export class PostCreateComponent implements OnInit {
     this.isLoading = false;
   }
 
+  onImageUpload(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({
+      image: file
+    });
+    this.form.get('image').updateValueAndValidity();
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      this.imagePreview = fileReader.result as string;
+    };
+    fileReader.readAsDataURL(file);
+  }
+
   getTitleError() {
     return this.title.hasError('required') ? 'Entre um Título para continuar' : '';
   }
@@ -86,4 +104,6 @@ export class PostCreateComponent implements OnInit {
   getContentError() {
     return this.content.hasError('required') ? 'Entre conteúdo! Dê forma as suas idéias!' : '';
   }
+
+  // criar erro para max length do autor
 }

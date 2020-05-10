@@ -19,12 +19,16 @@ mat-spinner {
   padding: 2rem;
 }
 
-.button__content {
-  display: flex;
-  // justify-content: flex-end;
-  align-items: center;
-}
+// .button__content {
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+// }
 
 input[type="file"] {
   visibility: hidden;
+}
+
+.image-preview img {
+  height: 7.5rem;
 }
