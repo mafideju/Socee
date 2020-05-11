@@ -39,19 +39,27 @@ export class PostCreateComponent implements OnInit {
       }),
       image: new FormControl(null, { asyncValidators: [mimeType] })
     });
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('id')) {
         this.isLoading = true;
         this.mode = 'edit';
         this.id = paramMap.get('id');
         this.postsService.getPostById(this.id).subscribe(resp => {
-          this.post = { id: resp._id, title: resp.title, content: resp.content, author: resp.author };
-          this.isLoading = false;
+          this.post = {
+            id: resp.id,
+            title: resp.title,
+            content: resp.content,
+            author: resp.author,
+            imagePath: resp.imagePath
+          };
           this.form.setValue({
             title: this.post.title,
             content: this.post.content,
-            author: this.post.author
+            author: this.post.author,
+            image: this.post.imagePath,
           });
+          this.isLoading = false;
         });
       } else {
         this.mode = 'create';
@@ -65,20 +73,20 @@ export class PostCreateComponent implements OnInit {
     if (this.form.invalid) { return; }
     if (this.mode === 'create') {
       this.postsService.addPostService(
-          this.form.value.id,
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.author,
+        this.form.value.image,
+        );
+      } else if (this.mode === 'edit') {
+        this.postsService.editPostService(
+          this.id,
           this.form.value.title,
           this.form.value.content,
           this.form.value.author,
           this.form.value.image,
-        );
-    } else if (this.mode === 'edit') {
-      this.postsService.editPostService(
-        this.id,
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.author
-      );
-    }
+          );
+        }
     this.form.reset();
     this.isLoading = false;
   }

@@ -36,3 +36,12 @@ textarea {
   color: purple;
   border-radius: 10px;
 }
+.post-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.post-image img {
+  width: 100%;
+  max-width: 20rem;
+}

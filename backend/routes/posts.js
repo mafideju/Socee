@@ -15,14 +15,14 @@ const storage = multer.diskStorage({
     const isValid = MIME_TYPE_ENUM[file.mimetype];
     let error = new Error("Invalid Mime Type");
     if (isValid) {
-      return error = null
+      error = null
     };
-    cb(null, 'backend/images');
+    cb(error, 'backend/images');
   },
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-');
     const ext = MIME_TYPE_ENUM[file.mimetype];
-    cb(null, `${name}-${Date.now()}.${ext}` );
+    cb(null, `${name}-${Date.now()}.${ext}`);
   }
 });
 
@@ -48,28 +48,42 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('', multer({storage: storage}).single('image') , (req, res, next) => {
+  const url = `${req.protocol}://${req.get('host')}`;
   const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      author: req.body.author
+      author: req.body.author,
+      imagePath: `${url}/images/${req.file.filename}`
   });
   post
       .save()
       .then(result => {
           res.status(201).json({
               message: 'Recurso adicionado com sucesso! =)',
-              postId: result._id
+              post: {
+                id: result._id,
+                title: result.title,
+                content: result.content,
+                author: result.author,
+                imagePath: result.imagePath,
+              }
           });
       })
       .catch(err => console.log('error', err));
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", multer({storage: storage}).single('image'), (req, res, next) => {
+  let imagePath = req.body.imagePath;
+  if (req.file) {
+    const url = `${req.protocol}://${req.get('host')}`;
+    imagePath = `${url}/images/${req.file.filename}`;
+  }
   const post = new Post({
       _id: req.body.id,
       title: req.body.title,
       content: req.body.content,
-      author: req.body.author
+      author: req.body.author,
+      imagePath
   });
   Post
       .updateOne({ _id: req.params.id }, post)

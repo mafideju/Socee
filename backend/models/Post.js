@@ -11,6 +11,9 @@ const PostSchema = mongoose.Schema({
     },
     author: {
       type: String,
+    },
+    imagePath: {
+      type: String,
     }
 });
 

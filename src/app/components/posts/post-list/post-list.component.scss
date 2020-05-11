@@ -47,3 +47,13 @@ textarea {
     border-radius: 10px;
   }
 }
+
+.post-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & img {
+    width: 100%;
+    max-width: 20rem;
+  }
+}
