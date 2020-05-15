@@ -4,7 +4,7 @@ import { Observable, Observer, of } from 'rxjs';
 export const mimeType = (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}> => {
   if (typeof(control.value) === 'string') { return of(null); }
 
-  const file = control.value as File;
+  const file = control.value ? control.value as File : control.value as Blob;
   const fileReader = new FileReader();
   const fileReaderObservable = new Observable((observer: Observer<{ [key: string]: any }>) => {
     fileReader.addEventListener('loadend', () => {

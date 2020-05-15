@@ -17,9 +17,11 @@ export class PostsService {
     private router: Router
     ) { }
 
-  getPosts() {
+  getPosts(pageSize, page) {
+    const query = `?pageSize=${pageSize}&page=${page}`;
+
     this.http
-      .get<{message: string, posts: any}>(`http://localhost:3000/api/posts`)
+      .get<{message: string, posts: any}>(`http://localhost:3000/api/posts${query}`)
       .pipe(map(data => {
         return data.posts.map(post => {
           return {
@@ -51,13 +53,13 @@ export class PostsService {
     return this.postsUpdated.asObservable();
   }
 
-  addPostService(title: string, content: string, author: string, image: File) {
+  addPostService(title: string, content: string, author: string, image?: File) {
 
     const post = new FormData();
     post.append('title', title);
     post.append('content', content);
     post.append('author', author);
-    post.append('image', image, title);
+    post.append('image', image as Blob, title);
 
 
     this.http
@@ -70,7 +72,7 @@ export class PostsService {
     });
   }
 
-  editPostService(id: string, title: string, content: string, author: string, image: File | string) {
+  editPostService(id: string, title: string, content: string, author: string, image?: File | string) {
     let post: Post | FormData;
 
     if (typeof(image) === 'object') {

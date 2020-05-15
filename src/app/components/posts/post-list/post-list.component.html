@@ -48,6 +48,15 @@
   </mat-accordion>
 </span>
 
+<mat-paginator
+  style="margin: 1rem;"
+  [length]="totalPosts"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 25]"
+  (page)="onChangedPage($event)"
+>
+</mat-paginator>
+
 <ng-template #noContent *ngIf="!isLoading">
   <mat-card class="content">
     <mat-card-title>
